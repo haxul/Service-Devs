@@ -1,4 +1,5 @@
 const path = require('path');
+const PrettierPlugin = require("prettier-webpack-plugin");
 
 module.exports = {
   entry: { main: './src/index.js' },
@@ -49,5 +50,8 @@ module.exports = {
       }
     ],
   },
-  devtool: "eval-sourcemap"
+  devtool: "eval-sourcemap",
+  plugins: [
+    new PrettierPlugin()
+  ]
 };
