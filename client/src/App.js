@@ -1,7 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
 import image from "./images/python.png";
 
 class App extends React.Component {
+  setOne = () => {
+    this.props.dSetOne();
+  };
+
   render() {
     return (
       <>
@@ -11,6 +16,7 @@ class App extends React.Component {
             style={{ float: "left" }}
             height="56px"
             width="56px"
+            onClick={this.setOne}
           />
           <h1>Developers</h1>
         </div>
@@ -51,4 +57,13 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default connect(
+  state => ({
+    store: state
+  }),
+  dispatch => ({
+    dSetOne: () => {
+      dispatch({ type: "ONE" });
+    }
+  })
+)(App);
