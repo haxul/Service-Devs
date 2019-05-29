@@ -7,15 +7,33 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 
 const initialState = {
-  devs: 4
+  devs: [],
+  name: "",
+  position: "",
+  skills: ""
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ONE":
+    case "NAME":
       return {
         ...state,
-        devs: ++state.devs
+        name: action.payload
+      };
+    case "POSITION":
+      return {
+        ...state,
+        position: action.payload
+      };
+    case "SKILLS":
+      return {
+        ...state,
+        skills: action.payload
+      };
+    case "UPDATE_DEVS":
+      return {
+        ...state,
+        devs: action.payload
       };
     default:
       return state;

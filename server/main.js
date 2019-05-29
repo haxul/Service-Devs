@@ -7,7 +7,9 @@ const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlPar
 let dbClient, 
     id = 0;
 
-app.use(express.static(__dirname + "/public"));
+const clientPath = __dirname.slice(0,-7);
+
+app.use(express.static(clientPath + "/client"));
 
 mongoClient.connect((err, client) => {
   if (err) {
@@ -89,7 +91,7 @@ app.delete("/api/deleteDevs/:id", (req,res) => {
 });
 
 app.use("/", (req, res) => {
-  res.sendFile(__dirname + "./public/index.html");
+  res.sendFile(clientPath + "/client/index.html");
 });
 
 process.on("SIGINT", () => {
