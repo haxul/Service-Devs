@@ -48,7 +48,17 @@ class App extends React.Component {
 
   render() {
     const { devs } = this.props.store;
-    
+    const devList = devs.map((dev, index) => {
+      return (
+        <tr key={index}>
+          <th>{dev.id}</th>
+          <td>{dev.name}</td>
+          <td>{dev.position}</td>
+          <td>{dev.skills.join(" ")}</td>
+        </tr>
+      );
+    });
+
     return (
       <>
         <div className="container">
@@ -64,20 +74,13 @@ class App extends React.Component {
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">#id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Position</th>
+                <th scope="col">Skills</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-            </tbody>
+            <tbody>{devList}</tbody>
           </table>
         </div>
         <div className="container">
