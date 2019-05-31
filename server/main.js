@@ -4,8 +4,7 @@ const jsonParser = express.json();
 const MongoClient = require("mongodb").MongoClient;
 const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlParser: true });
 
-let dbClient, 
-    id = 0;
+let dbClient, id = 0, currentListDevs;
 
 const clientPath = __dirname.slice(0,-7);
 
@@ -30,6 +29,7 @@ app.get("/api/devs", (req, res) => {
       console.log(err);
       return;
     }
+    currentListDevs = result;
     res.send(JSON.stringify(result));
   });
 });
@@ -45,9 +45,18 @@ app.get("/api/deleteAll", (req, res) => {
     res.end();
   });
 });
+
+app.get("/api/test", (req, res) => {
+});
 // --------------------------------
 
 app.post("/api/addDevs",jsonParser, (req,res) => {
+  //defining the maximum id the data base ====
+  let tmp = 0;
+  for (let i = 0; i < currentListDevs.length; i++) {
+    if(currentListDevs[i].id > tmp) id = currentListDevs[i].id;     
+  }
+  // ======
   if (!req.body) res.sendStatus(400);
   const person = {
     id: ++id,
