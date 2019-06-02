@@ -10,7 +10,8 @@ const initialState = {
   devs: [],
   name: "",
   position: "",
-  skills: ""
+  skills: "",
+  screen: "add"
 };
 
 const reducer = (state = initialState, action) => {
@@ -34,6 +35,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         devs: action.payload
+      };
+    case "HANDLE_LINKS":
+      return {
+        ...state,
+        screen: action.payload
       };
     default:
       return state;

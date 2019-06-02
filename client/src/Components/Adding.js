@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { getDevelopers } from "../App";
 
 class Adding extends React.Component {
+  // methods to get value of input -----
   handleName = e => {
     this.props.dHandleName(e.target.value);
   };
@@ -14,7 +15,7 @@ class Adding extends React.Component {
   handleSkills = e => {
     this.props.dHandleSkills(e.target.value);
   };
-
+  //-------------------------------------------
   addDev = () => {
     const { name, position, skills } = this.props.store;
     const skillList = skills.replace(/[\s+\.+,+]/g, ",").split(",");
@@ -30,8 +31,8 @@ class Adding extends React.Component {
         skills: skillList
       })
     }).then(() => {
-      let tmp;
-      getDevelopers(tmp, this.props.dUpdateDevs);
+      let res;
+      getDevelopers(res, this.props.dUpdateDevs);
     });
   };
 

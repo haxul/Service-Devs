@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import image from "./images/python.png";
 import Adding from "./Components/Adding.js";
+import Table from "./Components/Table.js";
 
 export function getDevelopers(param, callback) {
   fetch("/api/devs")
@@ -16,11 +16,23 @@ export function getDevelopers(param, callback) {
 }
 
 class App extends React.Component {
-  
   componentDidMount() {
-    let tmp;
-    getDevelopers(tmp, this.props.dUpdateDevs);
+    let res;
+    getDevelopers(res, this.props.dUpdateDevs);
   }
+
+  handleLinks = e => {
+    let links = document.querySelectorAll(".nav-link");
+
+    links.forEach(link => link.classList.remove("active"));
+    e.target.classList.add("active");
+    if (e.target.parentNode.classList.contains("add"))
+      this.props.dHandleLinks("add");
+    else if (e.target.parentNode.classList.contains("remove"))
+      this.props.dHandleLinks("remove");
+    else if (e.target.parentNode.classList.contains("update"))
+      this.props.dHandleLinks("update");
+  };
 
   render() {
     const { devs } = this.props.store;
@@ -36,32 +48,29 @@ class App extends React.Component {
     });
 
     return (
-      <>
-        <div className="container">
-          <img
-            src={image}
-            style={{ float: "left" }}
-            height="56px"
-            width="56px"
-          />
-          <h1>Developers</h1>
-        </div>
-        <div className="container">
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">#id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Position</th>
-                <th scope="col">Skills</th>
-              </tr>
-            </thead>
-            <tbody>{devList}</tbody>
-          </table>
-        </div>
+      <div className="container">
+        <Table devList={devList} />
 
-        <Adding/>
-      </>
+        <ul className="nav nav-tabs" onClick={this.handleLinks}>
+          <li className="nav-item add">
+            <a className="nav-link active" href="#">
+              Add dev
+            </a>
+          </li>
+          <li className="nav-item remove">
+            <a className="nav-link" href="#">
+              Remove dev
+            </a>
+          </li>
+          <li className="nav-item update">
+            <a className="nav-link" href="#">
+              Update Dev
+            </a>
+          </li>
+        </ul>
+
+        <Adding />
+      </div>
     );
   }
 }
@@ -73,6 +82,9 @@ export default connect(
   dispatch => ({
     dUpdateDevs: devs => {
       dispatch({ type: "UPDATE_DEVS", payload: devs });
+    },
+    dHandleLinks: link => {
+      dispatch({ type: "HANDLE_LINKS", payload: link });
     }
   })
 )(App);
