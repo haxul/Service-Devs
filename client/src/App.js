@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import Adding from "./Components/Adding.js";
+import Removing from "./Components/Removing";
+import Updating from "./Components/Updating";
 import Table from "./Components/Table.js";
 
 export function getDevelopers(param, callback) {
@@ -35,7 +37,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { devs } = this.props.store;
+    const { devs, screen } = this.props.store;
     const devList = devs.map((dev, index) => {
       return (
         <tr key={index}>
@@ -50,7 +52,6 @@ class App extends React.Component {
     return (
       <div className="container">
         <Table devList={devList} />
-
         <ul className="nav nav-tabs" onClick={this.handleLinks}>
           <li className="nav-item add">
             <a className="nav-link active" href="#">
@@ -68,8 +69,13 @@ class App extends React.Component {
             </a>
           </li>
         </ul>
-
-        <Adding />
+        {screen === "add" ? (
+          <Adding />
+        ) : screen === "remove" ? (
+          <Removing />
+        ) : (
+          <Updating />
+        )}
       </div>
     );
   }
